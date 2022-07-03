@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BotTest": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

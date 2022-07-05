@@ -12,25 +12,24 @@ public static class ExMethodClass {
     public static MessageChainBuilder Face(this MessageChainBuilder builder, string FaceId) {
         return builder.Append(new FaceMessage { FaceId = FaceId, Name = "" });
     }
-    [Obsolete("复读机 后续只复读文本好了")]
+
     public static bool Equal (this MessageChain a, MessageChain b) {
+        if (a == null && b == null) {
+            return true;
+        }
+        if (a == null || b == null) {
+            return false;
+        }
         if (a.Count != b.Count) {
             return false;
         }
-        bool f = true;
         for (int i = 0; i < a.Count; i++) {
             if (a[i] is SourceMessage)  continue;
 
-            if (a[i] is ImageMessage aImage) {
-                if (!(b[i] is ImageMessage) || aImage.ImageId != (b[i] as ImageMessage).ImageId) {
-                    f = false;   break;
-                }
-            } else if (a[i] is PlainMessage aPlain) {
-                if (!(b[i] is PlainMessage) || aPlain.Text != (b[i] as PlainMessage).Text) {
-                    f = false;   break;
-                }
+            if (a[i] != b[i]) {
+                return false;
             }
         }
-        return f;
+        return true;
     }
 }

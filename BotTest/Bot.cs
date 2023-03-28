@@ -1,4 +1,6 @@
-﻿using Mirai.Net.Data.Messages;
+﻿using Mirai.Net.Data.Events.Concretes.Group;
+using Mirai.Net.Data.Events.Concretes.Request;
+using Mirai.Net.Data.Messages;
 using Mirai.Net.Data.Messages.Receivers;
 using Mirai.Net.Sessions;
 using Mirai.Net.Utils.Scaffolds;
@@ -23,6 +25,8 @@ public class Bot : IDisposable {
     private MiraiBot bot;
     public event Func<GroupMessageReceiver, Task> groupMessageEvent;
     public event Func<FriendMessageReceiver, Task> friendMessageEvent;
+    public event Func<NewMemberRequestedEvent, Task> newGroupRequestEvent;
+    public event Func<GroupMessageRecalledEvent, Task> groupRecallEvent;
 
     public Bot() {
         instance = this;
@@ -37,6 +41,10 @@ public class Bot : IDisposable {
             .Subscribe(async receiver => await groupMessageEvent?.Invoke(receiver));
         bot.MessageReceived.OfType<FriendMessageReceiver>()
             .Subscribe(async receiver => await friendMessageEvent?.Invoke(receiver));
+        bot.EventReceived.OfType<NewMemberRequestedEvent>()
+            .Subscribe(async e => await newGroupRequestEvent?.Invoke(e));
+        bot.EventReceived.OfType<GroupMessageRecalledEvent>()
+            .Subscribe(async e => await groupRecallEvent?.Invoke(e));
     }
 
     public static implicit operator MiraiBot(Bot bot) => bot.bot;

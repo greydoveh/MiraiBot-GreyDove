@@ -22,10 +22,13 @@ public class Program
         using GroupJrrp groupJrrp = new GroupJrrp();
         GroupFlash groupFlash = new GroupFlash();
         GroupRepeat groupRepeat = new GroupRepeat();
+        GroupRecallBack groupRecallBack = new GroupRecallBack();
         FriendForward friendForward = new FriendForward();
+        using KFCCrazyThursday kfc = new KFCCrazyThursday();
         Admin admin = new Admin();
 
         await bot.LaunchAsync();
+        //await kfc.ThursdayReminder();
 
         Console.WriteLine("Bot start successfully!");
 

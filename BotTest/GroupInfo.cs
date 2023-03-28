@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 public class GroupInfo {
     public static List<GroupInfo> list = new List<GroupInfo>();
+    public List<MessageChain> messages;
     public string Id { get; set; }
     public string Name { get; set; }
     
-    public MessageChain LastFlashImage { get; set; }
-    public MessageChain LastMessageChain { get; set;}
+    public MessageChain? LastFlashImage { get; set; }
+    public MessageChain? LastMessageChain { get; set;}
+    public MessageChain? RecallMessageChain { get; set;}
     public bool CanRepeat { get; set;}
 
     public static GroupInfo GetGroupInfo (string num) {
@@ -27,6 +29,7 @@ public class GroupInfo {
     public GroupInfo(string QQGroupNum, string name = "") {
         Id = QQGroupNum;
         Name = name;
+        messages = new List<MessageChain>();
     }
 
     public static implicit operator string(GroupInfo groupInfo) => groupInfo.Id;
